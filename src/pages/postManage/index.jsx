@@ -1,4 +1,4 @@
-import { Avatar, Button, Container, Grid, TableHead, TextField, CircularProgress } from '@material-ui/core';
+import { Avatar, Button, CircularProgress, Container, Grid, TableHead, TextField } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -116,8 +116,6 @@ export default function PostManage() {
     const [isLoading, setIsLoading] = useState(false);
 
     const [posts, setPosts] = useState([]);
-
-    const emptyRows = rowsPerPage - Math.min(rowsPerPage, posts.length - page * rowsPerPage);
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);

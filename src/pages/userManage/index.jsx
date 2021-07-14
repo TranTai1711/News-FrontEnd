@@ -1,4 +1,4 @@
-import { Avatar, Button, Container, Grid, TableHead, TextField, CircularProgress } from '@material-ui/core';
+import { Button, CircularProgress, Container, Grid, TableHead, TextField } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -17,8 +17,7 @@ import LastPageIcon from '@material-ui/icons/LastPage';
 import axios from 'axios';
 import moment from 'moment';
 import PropTypes from 'prop-types';
-import React, { Fragment, useContext, useEffect, useState } from 'react';
-import { GlobalState } from '../../GlobalState'
+import React, { Fragment, useEffect, useState } from 'react';
 
 
 const useStyles1 = makeStyles((theme) => ({
@@ -118,8 +117,6 @@ export default function UserManage() {
 
     const [users, setUsers] = useState([]);
 
-    const emptyRows = rowsPerPage - Math.min(rowsPerPage, users.length - page * rowsPerPage);
-
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
@@ -138,7 +135,7 @@ export default function UserManage() {
                 setIsLoading(false)
             })
             .catch(err => console.log(err.message))
-    }, [])
+    }, []);
 
     const handelOnDelete = (id) => {
         axios.delete(`/api/posts/${id}`)

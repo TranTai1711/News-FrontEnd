@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
-import './login.css'
-import { Link, useHistory } from 'react-router-dom'
 import axios from 'axios'
+import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
+import './login.css'
 
 const Login = () => {
     const [user, setUser] = useState({
@@ -9,7 +9,7 @@ const Login = () => {
         password: ''
     })
 
-    const history = useHistory();
+
 
     const onChangeInput = e => {
         const { name, value } = e.target;
@@ -22,7 +22,7 @@ const Login = () => {
             await axios.post('/user/login', { ...user })
 
             localStorage.setItem('firstLogin', true)
-            window.location.href("/");
+            window.location.href = "/";
         } catch (err) {
             alert(err.response.data.msg)
         }
