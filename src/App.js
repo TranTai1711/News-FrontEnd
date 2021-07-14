@@ -5,6 +5,7 @@ import {
   BrowserRouter as Router
 } from "react-router-dom";
 import Main from './pages/Main'
+import '@fontsource/roboto';
 
 
 function App() {
@@ -15,11 +16,13 @@ function App() {
       <Router>
         <div className="app">
           <Topbar />
-          <Main />
+          <div style={{ marginTop: "80px" }}>
+            <Main />
+          </div>
         </div>
       </Router>
     </DataProvider>
   );
-}  
+}
 
 export default App;
