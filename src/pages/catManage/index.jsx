@@ -126,7 +126,8 @@ function getModalStyle() {
 const useStyles = makeStyles((theme) => ({
     paper: {
         position: 'absolute',
-        width: 400,
+        width: 600,
+        height: 200,
         backgroundColor: theme.palette.background.paper,
         border: '2px solid #000',
         boxShadow: theme.shadows[5],
@@ -177,44 +178,46 @@ export default function CatManage() {
     const body = (
         <div style={modalStyle} className={classess.paper}>
             <form onSubmit={handleSubmit}>
-                Category
-                <TextField
-                    id="standard-multiline-flexible"
-                    label="Name"
-                    type="text"
-                    onChange={e => setName(e.target.value)}
-                    maxRows={4}
-                />
-                <Button
-                    variant='outlined'
-                    color='secondary'
-                    type="submit"
+                <Grid
+                    container
+                    direction='column'
+                    justifyContent='center'
+                    spacing={1}
                 >
-                    Save
-                </Button>
-            </form>
-
-        </div>
-    );
-
-    const bodys = (
-        <div style={modalStyle} className={classess.paper}>
-            <form onSubmit={handleSubmit}>
-                Edit Category
-                <TextField
-                    id="standard-multiline-flexible"
-                    label="Name"
-                    type="text"
-                    onChange={e => setName(e.target.value)}
-                    maxRows={4}
-                />{users.name}
-                <Button
-                    variant='outlined'
-                    color='secondary'
-                    type="submit"
-                >
-                    Save
-                </Button>
+                    <Grid
+                        item
+                    >
+                        <span>Category</span>
+                    </Grid>
+                    <Grid
+                        item
+                    >
+                        <TextField
+                            id="standard-multiline-flexible"
+                            label="Name"
+                            type="text"
+                            fullWidth
+                            onChange={e => setName(e.target.value)}
+                            maxRows={4}
+                        />
+                    </Grid>
+                    <Grid
+                        item
+                    >
+                        <Grid
+                            container
+                            justifyContent='flex-end'
+                        >
+                            <Button
+                                variant='outlined'
+                                color='secondary'
+                                type="submit"
+                            >
+                                Save
+                            </Button>
+                        </Grid>
+                    </Grid>
+                </Grid>
             </form>
 
         </div>
@@ -272,9 +275,6 @@ export default function CatManage() {
                         <Grid item>
                             <h2>Categories Manage</h2>
                         </Grid>
-                        <Button variant='outlined' color='secondary' type="button" onClick={handleOpen}>
-                            Create
-                        </Button>
                         <Modal
                             open={open}
                             onClose={handleClose}
@@ -283,14 +283,6 @@ export default function CatManage() {
                         >
                             {body}
                         </Modal>
-                        <Modal
-                            open={open}
-                            onClose={handleClose}
-                            aria-labelledby="simple-modal-title"
-                            aria-describedby="simple-modal-description"
-                        >
-                            {bodys}
-                        </Modal>
                         <Grid >
                             <Grid container spacing={1} alignItems="flex-end">
                                 <Grid item>
@@ -298,6 +290,11 @@ export default function CatManage() {
                                 </Grid>
                                 <Grid item>
                                     <TextField id="input-with-icon-grid" label="Search" />
+                                </Grid>
+                                <Grid item>
+                                    <Button variant='contained' color='primary' type="button" onClick={handleOpen}>
+                                        Create
+                                    </Button>
                                 </Grid>
                             </Grid>
                         </Grid>
@@ -338,9 +335,6 @@ export default function CatManage() {
                                                 onClick={() => handelOnDelete(row._id)}
                                             >
                                                 Delete
-                                            </Button>
-                                            <Button variant="outlined" color="primary" onClick={handleEdit}>
-                                                Edit
                                             </Button>
                                         </TableCell>
                                     </TableRow>
