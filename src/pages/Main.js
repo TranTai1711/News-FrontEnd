@@ -9,6 +9,7 @@ import Settings from './settings/Settings'
 import { GlobalState } from '../GlobalState'
 import PostManage from './postManage'
 import UserManage from './userManage'
+import CatManage from './catManage'
 
 export default function Main() {
     const state = useContext(GlobalState)
@@ -20,6 +21,7 @@ export default function Main() {
 
             <Route exact path="/post-manage" component={PostManage} />
             <Route exact path="/user-manage" component={UserManage} />
+            <Route exact path="/cat-manage" component={CatManage} />
 
             <Route exact path="/register" component={isLogged ? Home : Register} />
 

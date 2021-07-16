@@ -1,4 +1,4 @@
-import { Button, CircularProgress, Container, Grid, TableHead, TextField } from '@material-ui/core';
+import { Button, CircularProgress, Container, Grid, Modal, TableHead, TextField } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -18,6 +18,8 @@ import axios from 'axios';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import React, { Fragment, useEffect, useState } from 'react';
+// import { useHistory } from 'react-router'
+
 
 
 const useStyles1 = makeStyles((theme) => ({
@@ -95,9 +97,7 @@ TablePaginationActions.propTypes = {
 
 
 const columns = [
-    { id: 'email', label: 'Email' },
     { id: 'name', label: 'Name' },
-    { id: 'role', label: 'Role' },
     { id: 'createdAt', label: 'Date created' },
     { id: 'action', label: 'Action', align: 'center' },
 ];
@@ -108,17 +108,117 @@ const useStyles2 = makeStyles({
     },
 });
 
-export default function UserManage() {
+function rand() {
+    return Math.round(Math.random() * 20) - 10;
+}
+
+function getModalStyle() {
+    const top = 50 + rand();
+    const left = 50 + rand();
+
+    return {
+        top: `${top}%`,
+        left: `${left}%`,
+        transform: `translate(-${top}%, -${left}%)`,
+    };
+}
+
+const useStyles = makeStyles((theme) => ({
+    paper: {
+        position: 'absolute',
+        width: 400,
+        backgroundColor: theme.palette.background.paper,
+        border: '2px solid #000',
+        boxShadow: theme.shadows[5],
+        padding: theme.spacing(2, 4, 3),
+    },
+}));
+
+
+export default function CatManage() {
     const classes = useStyles2();
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
     const [isLoading, setIsLoading] = useState(false);
-
+    const [name, setName] = useState("");
     const [users, setUsers] = useState([]);
+    const classess = useStyles();
+    // getModalStyle is not a pure function, we roll the style only on the first render
+    const [modalStyle] = React.useState(getModalStyle);
+    const [open, setOpen] = React.useState(false);
+
+    const handleOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    const handleEdit = () => {
+        setOpen(true);
+    };
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const newCat = {
+            name
+        };
+        try {
+            await axios.post("/api/category", newCat);
+            window.location.replace("/cat-manage")
+        } catch (err) { }
+    };
+
+    const body = (
+        <div style={modalStyle} className={classess.paper}>
+            <form onSubmit={handleSubmit}>
+                Category
+                <TextField
+                    id="standard-multiline-flexible"
+                    label="Name"
+                    type="text"
+                    onChange={e => setName(e.target.value)}
+                    maxRows={4}
+                />
+                <Button
+                    variant='outlined'
+                    color='secondary'
+                    type="submit"
+                >
+                    Save
+                </Button>
+            </form>
+
+        </div>
+    );
+
+    const bodys = (
+        <div style={modalStyle} className={classess.paper}>
+            <form onSubmit={handleSubmit}>
+                Edit Category
+                <TextField
+                    id="standard-multiline-flexible"
+                    label="Name"
+                    type="text"
+                    onChange={e => setName(e.target.value)}
+                    maxRows={4}
+                />{users.name}
+                <Button
+                    variant='outlined'
+                    color='secondary'
+                    type="submit"
+                >
+                    Save
+                </Button>
+            </form>
+
+        </div>
+    );
 
     const handleChangeRowsPerPage = (event) => {
         setRowsPerPage(parseInt(event.target.value, 10));
@@ -127,7 +227,7 @@ export default function UserManage() {
 
     useEffect(() => {
         setIsLoading(true)
-        axios.get('/user/users')
+        axios.get('/api/category')
             .then(res => {
                 console.log({ res });
                 setUsers(res.data)
@@ -137,7 +237,7 @@ export default function UserManage() {
     }, []);
 
     const handelOnDelete = (id) => {
-        axios.delete(`/api/posts/${id}`)
+        axios.delete(`/api/category/${id}`)
             .then(res => {
                 setUsers(users.filter(item => (item._id !== id)))
             })
@@ -163,18 +263,34 @@ export default function UserManage() {
                 </Grid>
             ) : (
                 <Fragment>
-
                     <Grid
                         container
                         direction='row'
                         justifyContent='space-between'
                         spacing={3}
                     >
-                        <Grid
-                            item
-                        >
-                            <h2>User Manage</h2>
+                        <Grid item>
+                            <h2>Categories Manage</h2>
                         </Grid>
+                        <Button variant='outlined' color='secondary' type="button" onClick={handleOpen}>
+                            Create
+                        </Button>
+                        <Modal
+                            open={open}
+                            onClose={handleClose}
+                            aria-labelledby="simple-modal-title"
+                            aria-describedby="simple-modal-description"
+                        >
+                            {body}
+                        </Modal>
+                        <Modal
+                            open={open}
+                            onClose={handleClose}
+                            aria-labelledby="simple-modal-title"
+                            aria-describedby="simple-modal-description"
+                        >
+                            {bodys}
+                        </Modal>
                         <Grid >
                             <Grid container spacing={1} alignItems="flex-end">
                                 <Grid item>
@@ -207,14 +323,8 @@ export default function UserManage() {
                                     : users
                                 ).map((row) => (
                                     <TableRow key={row._id}>
-                                        <TableCell component="th" scope="row">
-                                            {row.email}
-                                        </TableCell>
                                         <TableCell>
                                             {row.name}
-                                        </TableCell>
-                                        <TableCell>
-                                            {row.role === 1 ? ("Admin") : ("Customer")}
                                         </TableCell>
                                         <TableCell>
                                             {moment(row.createdAt).format('l')}
@@ -228,6 +338,9 @@ export default function UserManage() {
                                                 onClick={() => handelOnDelete(row._id)}
                                             >
                                                 Delete
+                                            </Button>
+                                            <Button variant="outlined" color="primary" onClick={handleEdit}>
+                                                Edit
                                             </Button>
                                         </TableCell>
                                     </TableRow>

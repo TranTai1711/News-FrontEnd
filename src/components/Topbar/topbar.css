@@ -51,13 +51,13 @@
 
   transition: 0.5s;
   position: fixed;
-  height: 70px;
+  height: 60px;
   width: 100%;
   top: 0;
   z-index: 9999999999999999999;
   color: #bdc3c7;
   font-family: "Roboto", sans-serif;
-  font-size: 1.5rem;
+  font-size: 1.1rem;
 }
 
 .top:hover {
@@ -71,7 +71,7 @@
   margin: 0;
   padding: 0;
   list-style: none;
-  height: 70px;
+  height: 60px;
   width: 80%;
   margin: auto;
 }

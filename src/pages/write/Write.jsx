@@ -3,6 +3,7 @@ import { GlobalState } from '../../GlobalState'
 import './write.css'
 // import { Link } from 'react-router-dom'
 import axios from 'axios'
+import { useHistory } from 'react-router'
 
 const initialState = {
     title: '',
@@ -19,7 +20,7 @@ const Write = () => {
     const [categories] = state.categoriesAPI.categories
     const [photo, setImages] = useState(false)
     const [users] = state.userAPI.user
-
+    const history = useHistory()
     useEffect(() => {
         setPost({ ...post, username: users.name })
     }, [users.name])
@@ -75,7 +76,7 @@ const Write = () => {
             }
             setImages(false)
             setPost(initialState)
-
+            history.push('/')
         } catch (err) {
             alert(err.response.data.msg)
         }

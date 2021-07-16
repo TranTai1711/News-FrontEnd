@@ -13,9 +13,9 @@ const Topbar = () => {
     const adminRouter = () => {
         return (
             <div className="topRight">
-                <li className="topListItem"><Link to="/post-manage" className="link"> POST</Link></li>
-                <li className="topListItem"><Link to="/category" className="link">CATEGORIES</Link></li>
-                <li className="topListItem"><Link to="/user-manage" className="link">USERS</Link></li>
+                <li className="topListItem"><Link to="/post-manage" className="link"> Post</Link></li>
+                <li className="topListItem"><Link to="/cat-manage" className="link">Categories</Link></li>
+                <li className="topListItem"><Link to="/user-manage" className="link">Users</Link></li>
             </div>
         )
     }
@@ -32,8 +32,8 @@ const Topbar = () => {
     const loggedRouter = () => {
         return (
             <>
-                <li className="topListItem"><Link to="/setting" className="link">SETTING</Link></li>
-                <li className="topListItem"><Link to="/" className="link" onClick={logoutUser}>LOGOUT</Link></li>
+                <li className="topListItem"><Link to="/setting" className="link">Setting</Link></li>
+                <li className="topListItem"><Link to="/" className="link" onClick={logoutUser}>Logout</Link></li>
             </>
 
         )
@@ -47,13 +47,13 @@ const Topbar = () => {
                     <ul className="topList">
                         <div className=" topList_left">
                             <li className="topListItem">
-                                <Link to="/" className="link">HOME</Link>
+                                <Link to="/" className="link">Home</Link>
                             </li>
                             <li className="topListItem">
-                                <Link to="/" className="link">ABOUT</Link>
+                                <Link to="/" className="link">About</Link>
                             </li>
                             <li className="topListItem">
-                                <Link to="/" className="link">CONTACT</Link>
+                                <Link to="/" className="link">Contact</Link>
                             </li>
                         </div>
                         {/* <li className="topListItem">
@@ -68,7 +68,7 @@ const Topbar = () => {
                     </li> */}
                         <div className="topRight">
                             {
-                                isLogged && !isAdmin ? <li className="topListItem"><Link className="link" to="/write">WRITE</Link></li> :
+                                isLogged && !isAdmin ? <li className="topListItem"><Link className="link" to="/write">Write</Link></li> :
                                     <li className="topListItem"><Link className="link" to="/login"></Link></li>
                             }
                             {isAdmin && adminRouter()}
@@ -76,7 +76,7 @@ const Topbar = () => {
                                 isLogged ? loggedRouter() :
 
                                     <li className="topListItem">
-                                        <Link to="/login" className="link">LOGIN</Link>
+                                        <Link to="/login" className="link">Login</Link>
                                     </li>
                             }
                         </div>
